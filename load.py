@@ -1,5 +1,6 @@
+"""This module loads objects."""
 import time
-from coppeliasim_zmqremoteapi_client import *
+from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 client = RemoteAPIClient()
 sim = client.require('sim')
 time.sleep(3)

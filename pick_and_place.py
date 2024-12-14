@@ -91,6 +91,39 @@ def pick_and_place_add(
     return add_shape_handle1, add_shape_handle2
 
 
+def pick_and_place_hand(
+        simulation, shape_handle: int, target_handle: int, hand_handle: int, sleep_time: int) -> None:
+    """Function picking an object and placing on a human hand.
+
+    args:
+        simulation:
+        shape_handle: handle of shape
+        target_handle: handle of target
+    """
+    time.sleep(sleep_time)
+    shape_position = simulation.getObjectPosition(shape_handle)
+    [x, y, z] = shape_position
+    simulation.setObjectPosition(target_handle, [x, y, 0.3])
+    time.sleep(sleep_time)
+    simulation.setObjectPosition(target_handle, [x, y, z])
+    time.sleep(sleep_time)
+    simulation.setIntProperty(simulation.handle_scene, 'signal.RG2_open', 0)
+    time.sleep(sleep_time)
+    simulation.setObjectPosition(target_handle, [x, y, 0.3])
+    time.sleep(sleep_time)
+    hand_position = simulation.getObjectPosition(hand_handle)
+    [x, y, z] = hand_position
+    simulation.setObjectPosition(target_handle, [x+0.0265, y+0.00551, 0.3])
+    time.sleep(sleep_time)
+    simulation.setObjectPosition(
+        target_handle, [x+0.0265, y+0.00551, z+0.00658])
+    time.sleep(sleep_time)
+    simulation.setIntProperty(simulation.handle_scene, 'signal.RG2_open', 1)
+    time.sleep(sleep_time)
+    simulation.setObjectPosition(target_handle, [x+0.0265, y+0.00551, 0.3])
+    time.sleep(sleep_time)
+
+
 if __name__ == "__main__":
     client = RemoteAPIClient()
     sim = client.require('sim')
